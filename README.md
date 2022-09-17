@@ -1,1 +1,1 @@
-# Quizy is my pet-project as part of the study React
+# <span style="color:#ff66cc">Quizy</span> is my pet-project as part of study React

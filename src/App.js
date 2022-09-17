@@ -71,6 +71,19 @@ const App = () => {
       setStep(step + 1);
   }
 
+
+  var url = new URL('https://quizapi.io/api/v1/questions');
+
+  var params = [['apiKey', 'F2vPTpqtEbEd9489JM5TeVayeUohhXF5hbnXw2iS'], ['limit', '5'], ['category', 'Linux']];
+
+  url.search = new URLSearchParams(params).toString();
+  React.useEffect(() => {
+    fetch(url).then(res => res.json()).then((json) => {
+      console.log(json);
+    })
+  }, []);
+  
+
   return (
     <div className="App">
       {
