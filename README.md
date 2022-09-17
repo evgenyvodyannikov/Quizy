@@ -1,0 +1,1 @@
+# Quizy is my pet-project as part of the study React
