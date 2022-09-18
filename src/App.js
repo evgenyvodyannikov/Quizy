@@ -1,27 +1,29 @@
 import React from 'react';
 import './index.scss';
 
-const questions = [
+let questions = [
   {
-    title: 'React - это ... ?',
-    variants: ['библиотека', 'фреймворк', 'приложение'],
-    correct: 0,
-  },
-  {
-    title: 'Компонент - это ... ',
-    variants: ['приложение', 'часть приложения или страницы', 'то, что я не знаю что такое'],
-    correct: 1,
-  },
-  {
-    title: 'Что такое JSX?',
-    variants: [
-      'Это простой HTML',
-      'Это функция',
-      'Это тот же HTML, но с возможностью выполнять JS-код',
-    ],
-    correct: 2,
-  },
+  title: 'Вы готовы?',
+  variants: [
+    'Да',
+    'Нет',
+  ],
+  correct: 0,
+},
 ];
+
+const SetQuestions = (data) => {
+  data.map((obj) =>
+  {
+    questions.push(
+      {
+        title: obj.question,
+        variants: (Object.values(obj.answers)).filter(Boolean),
+        correct: (Object.values(obj.correct_answers)).findIndex(i => i == "true")
+      }
+    )
+  })
+}
 
 const Result = ({correct}) => {
   return (
@@ -60,29 +62,28 @@ const Game = ({ step, question, onClickVariant }) => {
 
 const App = () => {
 
+  var url = new URL('https://quizapi.io/api/v1/questions');
+  var params = [['apiKey', 'F2vPTpqtEbEd9489JM5TeVayeUohhXF5hbnXw2iS'], ['limit', '9']]; // , ['category', 'Linux']
+
+  url.search = new URLSearchParams(params).toString();
+  React.useEffect(() => {
+    fetch(url)
+    .then(res => res.json())
+    .then((data) => {
+      SetQuestions(data);
+    })
+    .catch("Ошибка получения данных с сервера.\nПерезагрузите страницу.")
+  }, []);
+
   const [step, setStep] = React.useState(0);
   const [correct, setCorrect] = React.useState(0);
   const question = questions[step];
-
   const onClickVariant = (index) => {
       if(question.correct == index){
         setCorrect(correct + 1)
       } 
       setStep(step + 1);
   }
-
-
-  var url = new URL('https://quizapi.io/api/v1/questions');
-
-  var params = [['apiKey', 'F2vPTpqtEbEd9489JM5TeVayeUohhXF5hbnXw2iS'], ['limit', '5'], ['category', 'Linux']];
-
-  url.search = new URLSearchParams(params).toString();
-  React.useEffect(() => {
-    fetch(url).then(res => res.json()).then((json) => {
-      console.log(json);
-    })
-  }, []);
-  
 
   return (
     <div className="App">
