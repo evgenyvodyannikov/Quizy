@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.scss';
 
+import { Game } from './components/Game'
+
 let questions = [
   {
   title: 'Вы готовы?',
@@ -37,29 +39,6 @@ const Result = ({correct}) => {
   );
 }
 
-const Game = ({ step, question, onClickVariant }) => {
-  const percent = Math.round(step / questions.length * 100);
-
-  return (
-    <>
-      <div className="progress">
-        <div style={{ width: `${percent}%` }} className="progress__inner"></div>
-      </div>
-      <h1>{question.title}</h1>
-      <ul>
-        {
-          question.variants.map((text, index) => 
-          <li 
-          key={index} 
-          onClick={() => onClickVariant(index)}>
-          {text}
-          </li>)
-        }
-      </ul>
-    </>
-  );
-}
-
 const App = () => {
 
   var url = new URL('https://quizapi.io/api/v1/questions');
@@ -89,7 +68,7 @@ const App = () => {
     <div className="App">
       {
       step != questions.length ? (
-        <Game step={step} question={question} onClickVariant={onClickVariant} />
+        <Game step={step} question={question} onClickVariant={onClickVariant} questions={questions}/>
         ) : (
         <Result correct={correct}/>
         )}
