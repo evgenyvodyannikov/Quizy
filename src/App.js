@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 
 import { Game } from './components/Game'
+import { Result } from './components/Result'
 
 let questions = [
   {
@@ -25,18 +26,6 @@ const SetQuestions = (data) => {
       }
     )
   })
-}
-
-const Result = ({correct}) => {
-  return (
-    <div className="result">
-      <img src="https://cdn-icons-png.flaticon.com/512/2278/2278992.png" />
-      <h2>Ваш результат {correct} из {questions.length}</h2>
-      <a href="/">
-      <button>Попробовать снова</button>
-      </a> 
-    </div>
-  );
 }
 
 const App = () => {
@@ -70,7 +59,7 @@ const App = () => {
       step != questions.length ? (
         <Game step={step} question={question} onClickVariant={onClickVariant} questions={questions}/>
         ) : (
-        <Result correct={correct}/>
+        <Result correct={correct} length={questions.length}/>
         )}
     </div>
   );
